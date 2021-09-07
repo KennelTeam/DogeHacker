@@ -8,4 +8,5 @@ class Event:
     def __init__(self, data, event_type: str):
         self.data = data
         self.event_type = event_type
+        EventSystem.EventManager.EventManager.register_event(self)
 
