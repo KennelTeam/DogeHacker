@@ -1,5 +1,5 @@
-from EventSystem.Event import Event
-from EventSystem.EventManager import EventManager
+from EventSystem.event import Event
+from EventSystem.event_manager import EventManager
 
 
 class EventListener:
@@ -11,5 +11,6 @@ class EventListener:
     def __init__(self, subscription_prefix=""):
         self.__subscription_prefix = subscription_prefix
 
+    # Be careful with multithreading!
     def on_event(self, event: Event):
         pass
