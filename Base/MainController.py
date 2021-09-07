@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from UIManager import UIManager
+from Base.UIManager import UIManager
 from common.singleton import singleton
 
 @singleton
@@ -11,5 +11,3 @@ class MainController:
         self.ui_manager = UIManager()
         self.main_window = self.ui_manager.main_window
 
-
-MainController()

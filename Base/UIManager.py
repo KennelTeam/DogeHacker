@@ -4,6 +4,8 @@ import sys
 import EventSystem.event_listener
 from common.singleton import singleton
 from EventSystem.event import Event
+from CommandsProcessor import parse_command
+
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -34,7 +36,7 @@ class UIManager(EventSystem.event_listener.EventListener):
         super().__init__()
         self.subscribe("keyEvent")
         self.__app = QApplication(sys.argv)
-        form_, main_window_ = uic.loadUiType("MainDesign.ui")
+        form_, main_window_ = uic.loadUiType("Base\\MainDesign.ui")
         self.main_window = main_window_()
         self.form = form_()
         self.form.setupUi(self.main_window)
@@ -54,4 +56,6 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.command_line.resize(command_line.size())
 
     def on_event(self, event: Event):
-        print(self.command_line.text())
+        # print(self.command_line.text())
+        parse_command(self.command_line.text())
+
