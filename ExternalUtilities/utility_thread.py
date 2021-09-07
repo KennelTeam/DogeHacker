@@ -1,6 +1,10 @@
-from multiprocessing import Queue
 import time
 
 class Utility:
-    def __init__(self, queue: Queue):
-        queue.put('Hi buddy')
+    def __init__(self):
+        pass
+
+    def run(self):
+        while True:
+            time.sleep(1)
+            print('checkpoint')
