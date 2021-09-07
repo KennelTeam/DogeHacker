@@ -1,27 +1,28 @@
 import EventSystem.event
 import EventSystem.event_listener
 from common.singleton import singleton
-import multiprocessing
+import threading
 
 
 @singleton
 class EventManager:
     subscribers: dict = {}
-    subscribers_mutex = multiprocessing.Lock()
+    subscribers_mutex = threading.Lock()
 
     def subscribe(self, event_type, subscriber):
         assert isinstance(subscriber, EventSystem.event_listener.EventListener)
 
-        with self.subscribers_mutex:
-            if event_type in self.subscribers.keys():
-                self.subscribers[event_type].append(subscriber)
-            else:
-                self.subscribers[event_type] = [subscriber]
-            self.subscribers_mutex.release()
+        self.subscribers_mutex.acquire()
+        if event_type in self.subscribers.keys():
+            self.subscribers[event_type].append(subscriber)
+        else:
+            self.subscribers[event_type] = [subscriber]
+        self.subscribers_mutex.release()
 
     def register_event(self, event):
-        with self.subscribers_mutex:
-            if event.event_type in self.subscribers.keys():
-                for subscriber in self.subscribers[event.event_type]:
-                    process = multiprocessing.Process(target=subscriber.on_event, args=(subscriber, event, ))
-                    process.start()
+        self.subscribers_mutex.acquire()
+        if event.event_type in self.subscribers.keys():
+            for subscriber in self.subscribers[event.event_type]:
+                process = threading.Thread(target=subscriber.on_event, args=(event, ))
+                process.start()
+        self.subscribers_mutex.release()
