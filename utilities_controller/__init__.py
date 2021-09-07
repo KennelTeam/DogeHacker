@@ -5,8 +5,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../Exte
 
 existingUtilities = os.listdir('./ExternalUtilities/')
 
+
 def new_thread_utility(utility):
     utility.run()
+
 
 def import_utility(utName: str, newThread = False, **kwargs):
     if utName + '.py' not in existingUtilities:
