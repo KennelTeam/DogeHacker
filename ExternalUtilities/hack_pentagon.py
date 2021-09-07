@@ -15,6 +15,7 @@ class HackPentagonUtility(EventListener):
         self.name = name
 
     def run(self):
+        print("test")
         for i in range(self.progress_bar_size):
             et = self.prepare_element(i)
             Event(et, self.subscription_prefix + ":on_change:" + self.name)
