@@ -1,5 +1,5 @@
 import os, sys
-from multiprocessing import Process
+import threading
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../ExternalUtilities')))
 
@@ -19,6 +19,6 @@ def import_utility(utName: str, newThread = False, **kwargs):
     if not newThread: 
         return instance
     else:
-        p = Process(target=new_thread_utility, args=(instance,))
+        p = threading.Thread(target=new_thread_utility, args=(instance,))
         p.start()
         return instance
