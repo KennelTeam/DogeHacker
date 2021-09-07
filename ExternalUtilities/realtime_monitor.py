@@ -25,6 +25,6 @@ class Utility(EventListener):
 
             rootXML = ET.Element('root')
             textEl = ET.SubElement(rootXML, 'text')
-            ET.SubElement(textEl, 'sub_text').text = serverTime
+            ET.SubElement(textEl, 'sub_text').text = self.region + ' time is ' + serverTime
             ET.dump(rootXML)
             Event(rootXML, self.subscription_prefix + ':onChange:' + self.myname)
