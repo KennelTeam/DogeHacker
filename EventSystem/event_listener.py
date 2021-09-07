@@ -6,16 +6,22 @@ class EventListener:
     class SubscriptionType:
         ALL = ""
 
-    __subscription_prefix = ""
+    subscription_prefix = ""
+
+    def real_prefix(self):
+        prefix = self.subscription_prefix + ":"
+        if self.subscription_prefix == "":
+            prefix = ""
+        return prefix
 
     def subscribe(self, event_type: str):
-        EventManager.subscribe(self.__subscription_prefix + ":" + event_type, self)
+        EventManager.subscribe(self.real_prefix() + event_type, self)
 
     def unsubscribe(self, event_type: str):
-        EventManager.unsubscribe(self.__subscription_prefix + ":" + event_type, self)
+        EventManager.unsubscribe(self.real_prefix() + event_type, self)
 
     def __init__(self, subscription_prefix=""):
-        self.__subscription_prefix = subscription_prefix
+        self.subscription_prefix = subscription_prefix
 
     # Be careful with multithreading!
     def on_event(self, event: Event):
