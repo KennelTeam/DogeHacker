@@ -1,7 +1,7 @@
 import unittest
-from EventSystem.EventListener import EventListener
-from EventSystem.Event import Event
-from EventSystem.EventManager import EventManager
+from EventSystem.event_listener import EventListener
+from EventSystem.event import Event
+from EventSystem.event_manager import EventManager
 import sys
 import os
 

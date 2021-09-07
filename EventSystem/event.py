@@ -1,4 +1,4 @@
-import EventSystem.EventManager
+import EventSystem.event_manager
 
 
 class Event:
