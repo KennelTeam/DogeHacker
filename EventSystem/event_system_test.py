@@ -16,9 +16,6 @@ class EventListenerTest(EventListener):
         self.event_happened = True
         self.event_type = event.event_type
         self.event_data = event.data
-        print("EVENT HAPPENED!!!")
-        print(self.event_happened)
-        print(self)
 
 
 class EventSystemTest(unittest.TestCase):
@@ -31,10 +28,7 @@ class EventSystemTest(unittest.TestCase):
         self.assertEqual(testListener.event_happened, False, "Event is not happened, but event_happened is true")
 
         _ = Event(testData, "testEvent")
-        time.sleep(1)
-
-        print(testListener)
-        print(testListener.event_happened)
+        time.sleep(0.1)
 
         self.assertEqual(testListener.event_happened, True, "Event is happened, but event_happened is false")
         self.assertEqual(testListener.event_type, "testEvent", "event type is not set")
@@ -49,7 +43,7 @@ class EventSystemTest(unittest.TestCase):
         self.assertEqual(testListener.event_happened, False, "Event is not happened, but event_happened is true")
 
         _ = Event(testData, "testEventWrong")
-        time.sleep(1)
+        time.sleep(0.1)
         self.assertEqual(testListener.event_happened, False,
                          "Event with wrong type happened, but event_happened is true")
 
