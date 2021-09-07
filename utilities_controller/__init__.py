@@ -15,7 +15,7 @@ def import_utility(utName: str, newThread = False, **kwargs):
         return 'Utility you request doesn\'t exist'
     
     utImp = __import__(utName)
-    instance = utImp.Utility(**kwargs)
+    instance = utImp.Utility(name = utName, **kwargs)
     if not newThread: 
         return instance
     else:
