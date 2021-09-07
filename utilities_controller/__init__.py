@@ -1,7 +1,9 @@
-import os
+import os, sys
 from multiprocessing import Process, Queue
 
-existingUtilities = os.listdir()
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../ExternalUtilities')))
+
+existingUtilities = os.listdir('./ExternalUtilities/')
 
 class Proc(Process):
     def __init__(self, utilityClass, queue, kwargs):
@@ -11,7 +13,7 @@ class Proc(Process):
         self.queue = queue
     
     def run(self):
-        ut = self.utClass(self.queue, **self.kwargs)
+        self.utClass(self.queue, **self.kwargs)
 
 
 
