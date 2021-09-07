@@ -1,5 +1,4 @@
 import EventSystem.event
-import EventSystem.event_listener
 from common.singleton import singleton
 import threading
 
@@ -10,7 +9,7 @@ class EventManager:
     subscribers_mutex = threading.Lock()
 
     def subscribe(self, event_type, subscriber):
-        assert isinstance(subscriber, EventSystem.event_listener.EventListener)
+        # assert isinstance(subscriber, EventSystem.event_listener.EventListener)
 
         self.subscribers_mutex.acquire()
         if event_type in self.subscribers.keys():
@@ -20,7 +19,7 @@ class EventManager:
         self.subscribers_mutex.release()
 
     def unsubscribe(self, event_type, subscriber):
-        assert isinstance(subscriber, EventSystem.event_listener.EventListener)
+        # assert isinstance(subscriber, EventSystem.event_listener.EventListener)
         self.subscribers_mutex.acquire()
         if event_type in self.subscribers.keys():
             if subscriber in self.subscribers[event_type]:
