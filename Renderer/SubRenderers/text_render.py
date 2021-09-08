@@ -2,6 +2,7 @@
 from PyQt5.QtWidgets import QWidget, QLabel
 import xml.etree.ElementTree as ET
 
+
 class ColoredText(QWidget):
 
     padding = 15
@@ -17,12 +18,20 @@ class ColoredText(QWidget):
         # self.label1.move(0, 0)
         for child in data:
             label = QLabel(child.text, self)
-            print(child.attrib["color"])
-            label.setStyleSheet("color:" + child.attrib["color"])
+            color = None
+            if "color" in child.attrib.keys():
+                color = child.attrib["color"]
+            else:
+                color = "black"
+            print(color)
+            label.setStyleSheet("color:" + color)
             label.move(0, cur_y)
             print(label.font().weight())
 
             cur_y += self.padding
+        print("rendering finished")
         self.setMinimumHeight(cur_y)
+        print("showing")
         self.show()
+        print("DONE")
 
