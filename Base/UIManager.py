@@ -19,8 +19,8 @@ class CommandLineEdit(QLineEdit):
         super().__init__(wg)
 
     def keyPressEvent(self, e):
-        if e.key() == QtCore.Qt.Key.Key_Return:
-            Event(e.key(), "keyEvent")
+        # if e.key() == QtCore.Qt.Key.Key_Return:
+        Event(e.key(), "keyEvent")
         super().keyPressEvent(e)
 
 
@@ -56,7 +56,9 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.command_line.resize(command_line.size())
 
     def on_event(self, event: Event):
-        print(self.command_line.text())
-        params = parse_command(self.command_line.text())
-        choose_cmd_action(params)
+        print("on_event")
+        if event.data == QtCore.Qt.Key.Key_Return:
+            print("test")
+            params = parse_command(self.command_line.text())
+            choose_cmd_action(params)
 

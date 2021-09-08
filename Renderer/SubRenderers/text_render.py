@@ -36,7 +36,7 @@ class ColoredText(QWidget):
                 if "color" in child.attrib.keys():
                     color = child.attrib["color"]
                 else:
-                    color = "black"
+                    color = "white"
 
                 label.setStyleSheet("color:" + color)
                 label.move(cur_x, cur_y)

@@ -1,9 +1,11 @@
 from EventSystem.event_listener import EventListener
 from EventSystem.event import Event
+from PyQt5.QtCore import Qt
 import time
 import random
-
+from EventSystem.event_manager import EventManager
 import xml.etree.ElementTree as ET
+
 
 class Utility(EventListener):
     x: int
@@ -16,17 +18,23 @@ class Utility(EventListener):
     xApple: int
     yApple: int
 
-    def __init__(self, name: str, sub_pref: str, width: int, height: int):
-        super().__init__(sub_pref)
+    def __init__(self, name: str, subscription_prefix: str, width: int = 12, height: int = 12):
+        super().__init__(subscription_prefix)
+        print("Initialized")
+        EventManager.subscribe("keyEvent", self)
         self.x = width // 2
         self.y = height // 2
+        self.xApple = 0
+        self.yApple = 0
         self.width = width
         self.height = height
         self.tail = []
+        self.newAppleCord()
+        self.myname = name
         
     def on_event(self, event: Event):
         key = event.data
-        if key == 'd':
+        if key == Qt.Key.Key_D:
             if self.ydir == -1:
                 self.xdir = 1
                 self.ydir = 0
@@ -40,7 +48,7 @@ class Utility(EventListener):
                 self.ydir = -1
                 self.xdir = 0
         
-        elif key == 'a':
+        elif key == Qt.Key.Key_A:
             if self.ydir == -1:
                 self.xdir = -1
                 self.ydir = 0
@@ -53,7 +61,6 @@ class Utility(EventListener):
             elif self.xdir == -1:
                 self.ydir = 1
                 self.xdir = 0
-
 
     def newAppleCord(self):
         self.xApple = random.randint(0, self.width-1)
@@ -74,8 +81,8 @@ class Utility(EventListener):
             for i in range(self.width+2):
                 numsField.append([])
                 for a in range(self.height+2):
-                    numsField.append(0)
-            
+                    numsField[i].append(0)
+            print(numsField)
             for i in range(self.width+2):
                 numsField[0][i] = 1
                 numsField[-1][i] = 1
@@ -107,4 +114,4 @@ class Utility(EventListener):
             rootXML = ET.Element('root')
             textEl = ET.SubElement(rootXML, 'text')
             ET.SubElement(textEl, 'sub_text').text = sField
-            Event(rootXML, self.subscription_prefix + ':onChange:' + self.myname)
+            Event(rootXML, self.subscription_prefix + ':on_change:' + self.myname)
