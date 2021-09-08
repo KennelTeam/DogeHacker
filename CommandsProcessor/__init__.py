@@ -1,16 +1,16 @@
 import re
+from EventSystem.event import Event
 
 
 def start_utility_in_window(window_id, util_name):
     print('starting new util', window_id, util_name)
-    # запустить улилиту в окне
-    pass
+    Event(util_name, window_id + ":add_util")
 
 
 def choose_cmd_action(cmd):
     if cmd['main_cmd'] == 'startutil':
         util_name = cmd['second_cmd']
-        window_id = int(cmd['params']['w'])
+        window_id = cmd['params']['w']
         start_utility_in_window(window_id, util_name)
     # elif main_cmd == ''
 

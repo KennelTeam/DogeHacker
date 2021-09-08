@@ -1,3 +1,3 @@
 from Base.MainController import MainController
 
-MainController()
+controller = MainController

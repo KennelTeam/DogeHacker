@@ -4,7 +4,8 @@ import sys
 import EventSystem.event_listener
 from common.singleton import singleton
 from EventSystem.event import Event
-from CommandsProcessor import parse_command
+from CommandsProcessor import parse_command, choose_cmd_action
+import threading
 
 
 class MainWindow(QMainWindow):
@@ -25,7 +26,7 @@ class CommandLineEdit(QLineEdit):
 
 @singleton
 class UIManager(EventSystem.event_listener.EventListener):
-    __app: QApplication
+    app: QApplication
     form = None
     main_window: MainWindow
     command_line: CommandLineEdit
@@ -35,7 +36,7 @@ class UIManager(EventSystem.event_listener.EventListener):
     def __init__(self):
         super().__init__()
         self.subscribe("keyEvent")
-        self.__app = QApplication(sys.argv)
+        self.app = QApplication(sys.argv)
         form_, main_window_ = uic.loadUiType("Base\\MainDesign.ui")
         self.main_window = main_window_()
         self.form = form_()
@@ -44,7 +45,6 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.subwindow_layouts = self.window_gridlayout.children()
         self.setup_ui()
         self.main_window.show()
-        sys.exit(self.__app.exec_())
 
     def setup_ui(self):
         command_line = self.main_window.findChild(QLineEdit, "commandLine")
@@ -56,6 +56,7 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.command_line.resize(command_line.size())
 
     def on_event(self, event: Event):
-        # print(self.command_line.text())
-        parse_command(self.command_line.text())
+        print(self.command_line.text())
+        params = parse_command(self.command_line.text())
+        choose_cmd_action(params)
 

@@ -28,6 +28,8 @@ class EventManager:
 
     def register_event(self, event):
         self.subscribers_mutex.acquire()
+        print(event.event_type, event.data)
+        print(self.subscribers)
         if event.event_type in self.subscribers.keys():
             for subscriber in self.subscribers[event.event_type]:
                 process = threading.Thread(target=subscriber.on_event, args=(event, ))
