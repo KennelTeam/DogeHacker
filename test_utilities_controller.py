@@ -1,7 +1,7 @@
 import time
 import utilities_controller as uc
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # utFunc = uc.import_utility('utility_function', newThread=False)
     # print(utFunc.field)
 
@@ -10,6 +10,6 @@ if __name__ == '__main__':
     #     time.sleep(1.5)
     #     print('hi buddy')
 
-    ut = uc.import_utility('realtime_monitor', sub_pref = 'test_prefix', newThread=True)
+    # ut = uc.import_utility('realtime_monitor', sub_pref = 'test_prefix', newThread=True)
     # while True:
     #     continue
