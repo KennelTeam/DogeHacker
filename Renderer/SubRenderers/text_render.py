@@ -1,4 +1,4 @@
-
+from PyQt5.QtGui import QFont, QFontMetrics
 from PyQt5.QtWidgets import QWidget, QLabel
 import xml.etree.ElementTree as ET
 
@@ -14,24 +14,34 @@ class ColoredText(QWidget):
 
     def initUI(self, data: ET.Element):
         cur_y = 0
-        # self.label1 = QLabel("1234235", self)
-        # self.label1.move(0, 0)
+        cur_x = 0
+        font = QFont("Courier", 15)
+        fm = QFontMetrics(font)
+        # print(self.window().width(), self.width())
         for child in data:
-            label = QLabel(child.text, self)
-            color = None
-            if "color" in child.attrib.keys():
-                color = child.attrib["color"]
-            else:
-                color = "black"
-            print(color)
-            label.setStyleSheet("color:" + color)
-            label.move(0, cur_y)
-            print(label.font().weight())
+            if child.tag == "enter":
+                cur_x = 0
+                cur_y += fm.height()
+                continue
+            # print("width", self.width())
+            for word in child.text.split():
+                if cur_x + fm.width(word) > self.width():
+                    cur_x = 0
+                    cur_y += fm.height()
+                label = QLabel(word, self)
+                label.setFont(font)
+                # print(child.attrib["color"])
 
-            cur_y += self.padding
-        print("rendering finished")
-        self.setMinimumHeight(cur_y)
-        print("showing")
-        self.show()
-        print("DONE")
+                color = None
+                if "color" in child.attrib.keys():
+                    color = child.attrib["color"]
+                else:
+                    color = "black"
+
+                label.setStyleSheet("color:" + color)
+                label.move(cur_x, cur_y)
+                cur_x += fm.width(word + " ")
+
+        self.setMinimumHeight(cur_y + fm.height())
+        # self.show()
 

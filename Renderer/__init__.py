@@ -8,6 +8,12 @@ from Renderer.SubRenderers.graph_render import GraphPainter
 from common.singleton import singleton
 
 
+render_tags = {
+    "text": ColoredText,
+    "graph": GraphPainter
+}
+
+
 class Renderer(QObject):
     render = pyqtSignal(QFormLayout, ET.Element)
     instance = None
@@ -19,23 +25,19 @@ class Renderer(QObject):
 
     # @pyqtSlot
     def run(self, layout, data):
-        print("there")
+        for i in range(len(layout)):
+            layout.removeRow(i)
         for child in data:
             print(child.tag)
-            if child.tag == "text":
-                layout.addRow(ColoredText(child))
-            elif child.tag == "graph":
-                layout.addRow(GraphPainter(child))
+            layout.addRow(render_tags[child.tag](child))
 
 
 def render(layout: QFormLayout, data: ET.Element):
-    # root = data.getroot()
+    for i in range(len(layout)):
+        layout.removeRow(i)
     for child in data:
         print(child.tag)
-        if child.tag == "text":
-            layout.addRow(ColoredText(child))
-        elif child.tag == "graph":
-            layout.addRow(GraphPainter(child))
+        layout.addRow(render_tags[child.tag](child))
 
 
 if __name__ == '__main__':

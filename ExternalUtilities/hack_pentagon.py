@@ -34,13 +34,15 @@ class Utility(EventListener):
 
         if step != self.progress_bar_size:
             title = ElementTree.SubElement(main, "sub_text")
-            title.text = "Hacking pentagon in progress." + ("." * (step % 3))
+            title.text = "Hacking pentagon in progress." + ("." * (step % 3)) + " " * (3 - step % 3)
         else:
             title = ElementTree.SubElement(main, "sub_text", color="green")
             title.text = "Hacking pentagon completed."
-        progress_bar_text = "|" + "█" * step + " " * (self.progress_bar_size - step) + "|" + \
+        ElementTree.SubElement(main, "enter")
+        progress_bar_text = "|" + "█" * step + "_" * (self.progress_bar_size - step) + "|" + \
                             str(round((100.0 * step / self.progress_bar_size) * 10) / 10.0) + "% done"
         progress_bar = ElementTree.SubElement(main, "sub_text")
+
         progress_bar.text = progress_bar_text
 
         return main

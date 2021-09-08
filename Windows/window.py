@@ -5,7 +5,7 @@ from EventSystem.event_manager import EventManager
 from EventSystem.event_listener import EventListener
 from utilities_controller import import_utility
 import threading
-from Renderer import Renderer
+from Renderer import Renderer, render
 from xml.etree import ElementTree
 
 
