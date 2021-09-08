@@ -5,7 +5,6 @@ import EventSystem.event_listener
 from common.singleton import singleton
 from EventSystem.event import Event
 from CommandsProcessor import parse_command, choose_cmd_action
-import threading
 
 
 class MainWindow(QMainWindow):
@@ -42,7 +41,8 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.form = form_()
         self.form.setupUi(self.main_window)
         self.window_gridlayout = self.main_window.findChild(QGridLayout, "mainWindowsLayout")
-        self.subwindow_layouts = self.window_gridlayout.children()
+        self.subwindow_layouts = self.main_window.findChildren(QFormLayout)
+
         self.setup_ui()
         self.main_window.show()
 
@@ -58,7 +58,5 @@ class UIManager(EventSystem.event_listener.EventListener):
     def on_event(self, event: Event):
         print("on_event")
         if event.data == QtCore.Qt.Key.Key_Return:
-            print("test")
             params = parse_command(self.command_line.text())
             choose_cmd_action(params)
-

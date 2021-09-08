@@ -1,7 +1,3 @@
-import sys
-import threading
-import time
-
 from PyQt5.QtWidgets import *
 from Base.UIManager import UIManager
 from EventSystem.event import Event
