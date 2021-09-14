@@ -1,5 +1,10 @@
 .idea/
 venv/
 ignored/
+**/__pycache__/
+*.pyc
+*.cpython-37.pyc
 __pycache__/
 Base/__pycache__/
+Renderer/SubRenderers/__pycache__/
+Renderer/__pycache__/

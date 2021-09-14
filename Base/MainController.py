@@ -18,6 +18,7 @@ class MainController(EventListener):
         self.ui_manager = UIManager
         self.main_window = self.ui_manager.main_window
         self.windows = {}
+        self.subscribe("keyEvent")
         for id, layout in enumerate(UIManager.main_window.subwindows):
             window_id = "win" + str(id)
             self.windows[window_id] = Window(layout, window_id)
@@ -26,6 +27,9 @@ class MainController(EventListener):
 
     def on_event(self, event: Event):
         event_type = event.event_type.split(":")
+        if event_type[0] == "keyEvent":
+            for win in self.windows.keys():
+                Event(event.data, win + ":" + event_type[0])
         if len(event_type) > 1:
             if event_type[1] == "add_util":
                 self.windows[event_type[0]].add_utility(event.data)

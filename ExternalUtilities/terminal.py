@@ -1,6 +1,5 @@
 from EventSystem.event_listener import EventListener
 from EventSystem.event import Event
-import keyboard
 from xml.etree import ElementTree as ET
 from PyQt5.QtCore import Qt
 
@@ -19,9 +18,10 @@ class Utility(EventListener):
 
     def on_event(self, event: Event):
         print("event")
-        if keyboard.is_pressed('enter'):
+        print(event.data)
+        if event.data == Qt.Key.Key_Return:
             print("enter")
-            self.show_text += '\n' + self.show_text, "\n>>> "
+            self.show_text += '\n' + self.show_text + "\n>>> "
             self.input_text = ""
             self.update()
         self.update()
