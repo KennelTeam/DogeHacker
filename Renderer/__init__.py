@@ -73,6 +73,6 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     win = MainWindow()
-    render(win.form, root)
+    # render(win.form, root)
     win.show()
     sys.exit(app.exec_())
