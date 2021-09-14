@@ -14,7 +14,8 @@ class CommandLineWidget(QLineEdit):
         super().__init__(wg)
 
     def keyPressEvent(self, e):
-        Event(e.key(), "keyEvent")
+        if e.key() == QtCore.Qt.Key.Key_Return:
+            Event(e.key(), "commandLineEnter")
         super().keyPressEvent(e)
 
 
@@ -28,6 +29,10 @@ class MainWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.init_ui()
+
+    def keyPressEvent(self, e):
+        Event(e.key(), "keyEvent")
+        super().keyPressEvent(e)
 
     def init_ui(self):
         self.setWindowTitle("DogeHacker")
@@ -70,7 +75,7 @@ class UIManager(EventSystem.event_listener.EventListener):
 
     def __init__(self):
         super().__init__()
-        self.subscribe("keyEvent")
+        self.subscribe("commandLineEnter")
         self.subscribe("splitEvent")
         self.app = QApplication(sys.argv)
         self.main_window = MainWindow()
@@ -78,8 +83,10 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.main_window.show()
 
     def on_event(self, event: Event):
-        if event.data == QtCore.Qt.Key_Return:
+        if event.event_type == "commandLineEnter":
+            print("TTTT")
             params = parse_command(self.main_window.command_line.text())
+            print(params)
             choose_cmd_action(params)
         elif event.event_type == 'splitEvent':
             self.main_window.split_subwindow(event.data['name_source'], event.data['name1'], event.data['name2'], event.data['dir'])

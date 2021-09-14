@@ -16,6 +16,7 @@ class MainController(EventListener):
     def __init__(self):
         super().__init__()
         self.ui_manager = UIManager
+        self.subscribe("keyEvent")
         self.main_window = self.ui_manager.main_window
         self.windows = {}
         self.subscribe("keyEvent")
@@ -26,6 +27,7 @@ class MainController(EventListener):
         UIManager.app.exec_()
 
     def on_event(self, event: Event):
+        print(event.data)
         event_type = event.event_type.split(":")
         if event_type[0] == "keyEvent":
             for win in self.windows.keys():
