@@ -17,6 +17,16 @@ def choose_cmd_action(cmd):
         Event(cmd['second_cmd'], window_id + ":" + "ch_city")
     elif cmd['main_cmd'] == 'split':
         Event(cmd['params'], 'splitEvent')
+    else:
+        if 'w' in cmd['params'].keys():
+            window_id = cmd['params']['w']
+
+            second_cmd = cmd['second_cmd'] if 'second_cmd' in cmd.keys() else ""
+
+            Event({
+                'params': cmd['params'],
+                'second_cmd': second_cmd
+            }, str(window_id) + ":" + cmd['main_cmd'])
 
 
 def parse_command(inpcmd: str):

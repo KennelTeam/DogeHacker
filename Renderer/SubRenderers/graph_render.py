@@ -16,7 +16,7 @@ class GraphPainter(QWidget):
         # label = QLabel("test", self)
         # label.move(0, 0)
         self.setMinimumHeight(100)
-        self.show()
+        # self.show()
         pass
 
     def paintEvent(self, event):
