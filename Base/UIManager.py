@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
-from PyQt5 import uic, QtCore
+from PyQt5 import QtCore
+from PyQt5.QtGui import QFont
 import sys
 import EventSystem.event_listener
 from common.singleton import singleton
@@ -7,56 +8,69 @@ from EventSystem.event import Event
 from CommandsProcessor import parse_command, choose_cmd_action
 
 
-class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-
-class CommandLineEdit(QLineEdit):
+class CommandLineWidget(QLineEdit):
     def __init__(self, wg):
         self.wg = wg
         super().__init__(wg)
 
     def keyPressEvent(self, e):
-        # if e.key() == QtCore.Qt.Key.Key_Return:
         Event(e.key(), "keyEvent")
         super().keyPressEvent(e)
+
+
+class MainWindow(QWidget):
+    main_grid_layout: QGridLayout
+    grid_columns_count = 1
+    grid_rows_count = 1
+    command_line: QWidget
+    subwindows = list()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.init_ui()
+
+    def init_ui(self):
+        self.setWindowTitle("DogeHacker")
+        self.setStyleSheet("background-color: #303030;"
+                           "color: #DDDDDD;")
+        self.main_grid_layout = QGridLayout()
+        self.main_grid_layout.setSpacing(0)
+        self.setLayout(self.main_grid_layout)
+
+        for column in range(self.grid_columns_count):
+            for row in range(self.grid_rows_count):
+                self.add_subwindow((row, column))
+
+        self.command_line = CommandLineWidget(self)
+        self.command_line.setFont(QFont("Courier", 12))
+        self.command_line.setContentsMargins(0, 10, 0, 0)
+        self.command_line.setFocus()
+        self.main_grid_layout.addWidget(self.command_line, self.grid_rows_count, 0, 1, self.grid_columns_count)
+
+    def add_subwindow(self, position: tuple):
+        scroll_area = QScrollArea()
+        form_layout = QFormLayout()
+        form_layout.setContentsMargins(0, 0, 0, 0)
+        scroll_area.setLayout(form_layout)
+        self.subwindows.append(form_layout)
+        self.main_grid_layout.addWidget(scroll_area, position[0], position[1])
 
 
 @singleton
 class UIManager(EventSystem.event_listener.EventListener):
     app: QApplication
-    form = None
     main_window: MainWindow
-    command_line: CommandLineEdit
-    window_gridlayout: QGridLayout
-    subwindow_layouts: list
 
     def __init__(self):
         super().__init__()
         self.subscribe("keyEvent")
         self.app = QApplication(sys.argv)
-        form_, main_window_ = uic.loadUiType("Base\\MainDesign.ui")
-        self.main_window = main_window_()
-        self.form = form_()
-        self.form.setupUi(self.main_window)
-        self.window_gridlayout = self.main_window.findChild(QGridLayout, "mainWindowsLayout")
-        self.subwindow_layouts = self.main_window.findChildren(QFormLayout)
-
-        self.setup_ui()
+        self.main_window = MainWindow()
+        self.main_window.setGeometry(100, 100, 800, 600)
         self.main_window.show()
-
-    def setup_ui(self):
-        command_line = self.main_window.findChild(QLineEdit, "commandLine")
-        command_line.hide()
-        self.command_line = CommandLineEdit(self.main_window)
-        central_widget = self.main_window.findChild(QWidget, "centralwidget")
-        self.command_line.setParent(central_widget)
-        self.command_line.move(command_line.x(), command_line.y())
-        self.command_line.resize(command_line.size())
 
     def on_event(self, event: Event):
         print("on_event")
-        if event.data == QtCore.Qt.Key.Key_Return:
-            params = parse_command(self.command_line.text())
+        if event.data == QtCore.Qt.Key_Return:
+            params = parse_command(self.main_window.command_line.text())
             choose_cmd_action(params)
