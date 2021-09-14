@@ -5,11 +5,12 @@ import sys
 
 from Renderer.SubRenderers.text_render import ColoredText
 from Renderer.SubRenderers.graph_render import GraphPainter
+from Renderer.SubRenderers.label_render import LabelRender
 from common.singleton import singleton
 
 
 render_tags = {
-    "text": ColoredText,
+    "text": LabelRender,
     "graph": GraphPainter
 }
 
