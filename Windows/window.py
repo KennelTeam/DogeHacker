@@ -27,15 +27,15 @@ class Window(EventListener):
         self.utilities_mutex = threading.Lock()
 
     def on_event(self, event: Event):
-        print("Window on_event is called")
+        # print("Window on_event is called")
         event_type = event.event_type.split(self.window_id)[1].split(":")[1:]
-        print(event_type)
+        # print(event_type)
         if event_type[0] == 'on_change':
             self.utilities_mutex.acquire()
-            print("on_change called")
+            # print("on_change called")
             if event_type[1] in self.root_utilities.keys():
                 self.utilities_xmls[event_type[1]] = event.data
-                print("starting redrawing")
+                # print("starting redrawing")
                 redrawing = threading.Thread(target=self.redraw, args=())
                 redrawing.start()
             self.utilities_mutex.release()
@@ -46,24 +46,24 @@ class Window(EventListener):
                 pass
             self.utilities_mutex.release()
         elif event_type[0] == "add_util":
-            print("adding utility")
+            # print("adding utility")
             self.add_utility(event.data)
 
     def redraw(self):
-        print("redraw")
+        # print("redraw")
         result_xml = ElementTree.Element("xml")
         for utility in self.utilities_xmls.keys():
             xml = self.utilities_xmls[utility]
             result_xml.append(xml)
-        print("RENDER!!!")
-        ElementTree.dump(result_xml)
+        # print("RENDER!!!")
+        # ElementTree.dump(result_xml)
         Renderer.instance.render.emit(self.layout, result_xml)
         # render(self.layout, result_xml)
 
     def add_utility(self, utility_name):
         self.utilities_mutex.acquire()
-        print("add_utility is called")
-        print(self.real_prefix() + utility_name + ":on_change")
+        # print("add_utility is called")
+        # print(self.real_prefix() + utility_name + ":on_change")
         self.subscribe("on_change:" + utility_name)
         self.subscribe("on_error:" + utility_name)
         self.root_utilities[utility_name] = import_utility(utility_name, True, subscription_prefix=self.window_id)

@@ -1,7 +1,3 @@
-import sys
-import threading
-import time
-
 from PyQt5.QtWidgets import *
 from Base.UIManager import UIManager
 from EventSystem.event import Event
@@ -22,7 +18,7 @@ class MainController(EventListener):
         self.ui_manager = UIManager
         self.main_window = self.ui_manager.main_window
         self.windows = {}
-        for id, layout in enumerate(UIManager.subwindow_layouts):
+        for id, layout in enumerate(UIManager.main_window.subwindows):
             window_id = "win" + str(id)
             self.windows[window_id] = Window(layout, window_id)
         renderer = Renderer()

@@ -5,11 +5,12 @@ import sys
 
 from Renderer.SubRenderers.text_render import ColoredText
 from Renderer.SubRenderers.graph_render import GraphPainter
+from Renderer.SubRenderers.label_render import LabelRender
 from common.singleton import singleton
 
 
 render_tags = {
-    "text": ColoredText,
+    "text": LabelRender,
     "graph": GraphPainter
 }
 
@@ -28,7 +29,7 @@ class Renderer(QObject):
         for i in range(len(layout)):
             layout.removeRow(i)
         for child in data:
-            print(child.tag)
+            # print(child.tag)
             layout.addRow(render_tags[child.tag](child))
 
 
@@ -36,7 +37,7 @@ def render(layout: QFormLayout, data: ET.Element):
     for i in range(len(layout)):
         layout.removeRow(i)
     for child in data:
-        print(child.tag)
+        # print(child.tag)
         layout.addRow(render_tags[child.tag](child))
 
 
