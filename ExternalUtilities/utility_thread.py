@@ -7,4 +7,4 @@ class Utility:
     def run(self):
         while True:
             time.sleep(1)
-            print('checkpoint')
+            # print('checkpoint')

@@ -20,8 +20,8 @@ class CommandLineWidget(QLineEdit):
 
 class MainWindow(QWidget):
     main_grid_layout: QGridLayout
-    grid_columns_count = 1
-    grid_rows_count = 1
+    grid_columns_count = 3
+    grid_rows_count = 3
     command_line: QWidget
     subwindows = list()
 
@@ -55,6 +55,13 @@ class MainWindow(QWidget):
         self.subwindows.append(form_layout)
         self.main_grid_layout.addWidget(scroll_area, position[0], position[1])
 
+    def split_subwindow(self, name_source: str, name1: str, name2: str, direction: str):
+        # if direction == 'vertical':
+        #     self.main_grid_layout
+        #     ...
+        # elif direction == 'column':
+        #     ...
+        ...
 
 @singleton
 class UIManager(EventSystem.event_listener.EventListener):
@@ -64,13 +71,15 @@ class UIManager(EventSystem.event_listener.EventListener):
     def __init__(self):
         super().__init__()
         self.subscribe("keyEvent")
+        self.subscribe("splitEvent")
         self.app = QApplication(sys.argv)
         self.main_window = MainWindow()
         self.main_window.setGeometry(100, 100, 800, 600)
         self.main_window.show()
 
     def on_event(self, event: Event):
-        print("on_event")
         if event.data == QtCore.Qt.Key_Return:
             params = parse_command(self.main_window.command_line.text())
             choose_cmd_action(params)
+        elif event.event_type == 'splitEvent':
+            self.main_window.split_subwindow(event.data['name_source'], event.data['name1'], event.data['name2'], event.data['dir'])

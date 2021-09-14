@@ -29,7 +29,7 @@ class Renderer(QObject):
         for i in range(len(layout)):
             layout.removeRow(i)
         for child in data:
-            print(child.tag)
+            # print(child.tag)
             layout.addRow(render_tags[child.tag](child))
 
 
@@ -37,7 +37,7 @@ def render(layout: QFormLayout, data: ET.Element):
     for i in range(len(layout)):
         layout.removeRow(i)
     for child in data:
-        print(child.tag)
+        # print(child.tag)
         layout.addRow(render_tags[child.tag](child))
 
 

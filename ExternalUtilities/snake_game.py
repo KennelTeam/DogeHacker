@@ -20,7 +20,7 @@ class Utility(EventListener):
 
     def __init__(self, name: str, subscription_prefix: str, width: int = 12, height: int = 12):
         super().__init__(subscription_prefix)
-        print("Initialized")
+        # ("Initialized")
         EventManager.subscribe("keyEvent", self)
         self.x = width // 2
         self.y = height // 2
@@ -82,7 +82,7 @@ class Utility(EventListener):
                 numsField.append([])
                 for a in range(self.height+2):
                     numsField[i].append(0)
-            print(numsField)
+            # (numsField)
             for i in range(self.width+2):
                 numsField[0][i] = 1
                 numsField[-1][i] = 1
