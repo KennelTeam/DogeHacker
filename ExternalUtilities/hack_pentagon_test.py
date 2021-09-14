@@ -11,7 +11,7 @@ class TestHackPentagon(EventListener):
         self.subscribe(":on_change:test")
 
     def on_event(self, event: Event):
-        print("on_change")
+        # ("on_change")
         ElementTree.dump(event.data)
 
 

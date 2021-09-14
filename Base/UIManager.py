@@ -55,6 +55,8 @@ class MainWindow(QWidget):
         self.subwindows.append(form_layout)
         self.main_grid_layout.addWidget(scroll_area, position[0], position[1])
 
+    def split_subwindow(self, name_source: str, name1: str, name2: str, direction: str):
+        ...
 
 @singleton
 class UIManager(EventSystem.event_listener.EventListener):
@@ -70,7 +72,7 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.main_window.show()
 
     def on_event(self, event: Event):
-        print("on_event")
+        # ("on_event")
         if event.data == QtCore.Qt.Key_Return:
             params = parse_command(self.main_window.command_line.text())
             choose_cmd_action(params)
