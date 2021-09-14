@@ -10,7 +10,7 @@ from common.singleton import singleton
 
 
 render_tags = {
-    "text": LabelRender,
+    "text": ColoredText,
     "graph": GraphPainter
 }
 
