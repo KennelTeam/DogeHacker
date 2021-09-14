@@ -24,7 +24,7 @@ class ColoredText(QWidget):
                 cur_y += fm.height()
                 continue
             # print("width", self.width())
-            for word in child.text.split():
+            for word in child.text.split(" "):
                 if cur_x + fm.width(word) > self.width():
                     cur_x = 0
                     cur_y += fm.height()

@@ -17,7 +17,7 @@ class Utility(EventListener):
     def run(self):
         for i in range(self.progress_bar_size):
             et = self.prepare_element(i)
-            Event(et, self.subscription_prefix + ":on_change:" + self.name)
+            Event.emit(et, self.subscription_prefix + ":on_change:" + self.name)
             time.sleep(self.hacking_time / self.progress_bar_size)
 
         et = self.prepare_element(self.progress_bar_size)
@@ -31,7 +31,7 @@ class Utility(EventListener):
         data = ElementTree.SubElement(et, "sub_text", color="red")
         data.text = "BbI Bce ncbI"
 
-        Event(et, self.subscription_prefix + ":on_change:" + self.name)
+        Event.emit(et, self.subscription_prefix + ":on_change:" + self.name)
 
     def prepare_element(self, step):
         main = ElementTree.Element("text")

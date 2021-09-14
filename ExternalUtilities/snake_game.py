@@ -5,6 +5,7 @@ import time
 import random
 from EventSystem.event_manager import EventManager
 import xml.etree.ElementTree as ET
+import math
 
 
 class Utility(EventListener):
@@ -17,6 +18,7 @@ class Utility(EventListener):
     ydir = 1
     xApple: int
     yApple: int
+    terminate = False
 
     def __init__(self, name: str, subscription_prefix: str, width: int = 12, height: int = 12):
         super().__init__(subscription_prefix)
@@ -31,9 +33,13 @@ class Utility(EventListener):
         self.tail = []
         self.newAppleCord()
         self.myname = name
+        self.step = 1
         
     def on_event(self, event: Event):
         key = event.data
+        print(event.data, "QQQQQ!!!!")
+        print(Qt.Key.Key_A)
+        print(Qt.Key.Key_D)
         if key == Qt.Key.Key_D:
             if self.ydir == -1:
                 self.xdir = 1
@@ -53,7 +59,7 @@ class Utility(EventListener):
                 self.xdir = -1
                 self.ydir = 0
             if self.ydir == 1:
-                self.ydir = 1
+                self.xdir = 1
                 self.ydir = 0
             elif self.xdir == 1:
                 self.ydir = -1
@@ -62,20 +68,26 @@ class Utility(EventListener):
                 self.ydir = 1
                 self.xdir = 0
 
+        elif key == Qt.Key.Key_C:
+            self.terminate = True
+        print(self.xdir, self.ydir, "XDIR YDIR")
+
     def newAppleCord(self):
         self.xApple = random.randint(0, self.width-1)
         self.yApple = random.randint(0, self.height-1)
 
     def run(self):
-        while True:
-            time.sleep(1)
+        while not self.terminate:
+            time.sleep(1 / math.sqrt(math.sqrt(self.step)))
+            self.step += 1
             self.tail.append((self.x, self.y))
+            print(self.xdir, self.ydir)
             self.x += self.xdir
             self.y += self.ydir
             if self.x == self.xApple and self.y == self.yApple:
                 self.newAppleCord()
             else:
-                self.tail.pop()
+                self.tail = self.tail[1:]
 
             numsField = []
             for i in range(self.width+2):
@@ -91,7 +103,15 @@ class Utility(EventListener):
 
             for tel in self.tail:
                 numsField[tel[0]][tel[1]] = 2
-            
+
+            if self.x == self.width + 1:
+                self.x = 0
+            if self.y == self.height + 1:
+                self.y = 0
+            if self.x == -1:
+                self.x = self.width
+            if self.y == -1:
+                self.y = self.height
             numsField[self.x][self.y] = 3
             numsField[self.xApple][self.yApple] = 4
 
@@ -110,8 +130,10 @@ class Utility(EventListener):
                     elif el == 4:
                         sField += '^'
                 sField += '\n'
+            textEl = ET.Element('text')
+            for string in sField.split("\n"):
+                ET.SubElement(textEl, "sub_text").text = string
+                ET.SubElement(textEl, "enter")
 
-            rootXML = ET.Element('root')
-            textEl = ET.SubElement(rootXML, 'text')
-            ET.SubElement(textEl, 'sub_text').text = sField
-            Event(rootXML, self.subscription_prefix + ':on_change:' + self.myname)
+            Event.emit(textEl, self.subscription_prefix + ':on_change:' + self.myname)
+        Event.emit(ET.Element("text"), self.subscription_prefix + ":on_change:" + self.myname)

@@ -1,4 +1,4 @@
-from ExternalUtilities.hack_pentagon import HackPentagonUtility
+from ExternalUtilities.hack_pentagon import Utility
 from xml.etree import ElementTree
 from EventSystem.event import Event
 from EventSystem.event_listener import EventListener
@@ -17,5 +17,5 @@ class TestHackPentagon(EventListener):
 
 event_manager = EventManager
 thp = TestHackPentagon()
-hpu = HackPentagonUtility("", "test")
+hpu = Utility("", "test")
 hpu.run()

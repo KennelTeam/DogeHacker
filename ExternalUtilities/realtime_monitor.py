@@ -26,4 +26,4 @@ class Utility(EventListener):
 
             textEl = ET.Element('text')
             ET.SubElement(textEl, 'sub_text').text = self.region + ' time is ' + serverTime
-            Event(textEl, self.subscription_prefix + ':on_change:' + self.myname)
+            Event.emit(textEl, self.subscription_prefix + ':on_change:' + self.myname)

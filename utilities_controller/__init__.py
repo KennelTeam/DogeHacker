@@ -1,5 +1,5 @@
 import os, sys
-import threading
+from PyQt5.QtCore import QThread, QObject, QMutex
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../ExternalUtilities')))
 

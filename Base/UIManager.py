@@ -5,7 +5,7 @@ import EventSystem.event_listener
 from common.singleton import singleton
 from EventSystem.event import Event
 from CommandsProcessor import parse_command, choose_cmd_action
-import threading
+from common.thread import HackerMutex
 
 
 class MainWindow(QMainWindow):
@@ -20,7 +20,7 @@ class CommandLineEdit(QLineEdit):
 
     def keyPressEvent(self, e):
         # if e.key() == QtCore.Qt.Key.Key_Return:
-        Event(e.key(), "keyEvent")
+        Event.emit(e.key(), "keyEvent")
         super().keyPressEvent(e)
 
 
@@ -32,6 +32,7 @@ class UIManager(EventSystem.event_listener.EventListener):
     command_line: CommandLineEdit
     window_gridlayout: QGridLayout
     subwindow_layouts: list
+    _mutex: HackerMutex
 
     def __init__(self):
         super().__init__()
@@ -42,8 +43,10 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.form = form_()
         self.form.setupUi(self.main_window)
         self.window_gridlayout = self.main_window.findChild(QGridLayout, "mainWindowsLayout")
-        self.subwindow_layouts = self.window_gridlayout.children()
+        self.subwindow_layouts = self.main_window.findChildren(QFormLayout)
+
         self.setup_ui()
+        self._mutex = HackerMutex()
         self.main_window.show()
 
     def setup_ui(self):
@@ -56,9 +59,9 @@ class UIManager(EventSystem.event_listener.EventListener):
         self.command_line.resize(command_line.size())
 
     def on_event(self, event: Event):
-        print("on_event")
+        print("THERE!!!")
+        self._mutex.lock()
         if event.data == QtCore.Qt.Key.Key_Return:
-            print("test")
             params = parse_command(self.command_line.text())
             choose_cmd_action(params)
-
+        self._mutex.unlock()

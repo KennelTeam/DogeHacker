@@ -4,7 +4,7 @@ from EventSystem.event import Event
 
 def start_utility_in_window(window_id, util_name):
     print('starting new util', window_id, util_name)
-    Event(util_name, window_id + ":add_util")
+    Event.emit(util_name, window_id + ":add_util")
 
 
 def choose_cmd_action(cmd):
@@ -15,7 +15,7 @@ def choose_cmd_action(cmd):
         start_utility_in_window(window_id, util_name)
     elif cmd['main_cmd'] == 'ch_city':
         window_id = cmd['params']['w']
-        Event(cmd['second_cmd'], window_id + ":" + "ch_city")
+        Event.emit(cmd['second_cmd'], window_id + ":" + "ch_city")
 
 
 def parse_command(inpcmd: str):
