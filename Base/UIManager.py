@@ -84,9 +84,9 @@ class UIManager(EventSystem.event_listener.EventListener):
 
     def on_event(self, event: Event):
         if event.event_type == "commandLineEnter":
-            print("TTTT")
+            # print("TTTT")
             params = parse_command(self.main_window.command_line.text())
-            print(params)
+            # print(params)
             choose_cmd_action(params)
         elif event.event_type == 'splitEvent':
             self.main_window.split_subwindow(event.data['name_source'], event.data['name1'], event.data['name2'], event.data['dir'])

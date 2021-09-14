@@ -27,7 +27,7 @@ class MainController(EventListener):
         UIManager.app.exec_()
 
     def on_event(self, event: Event):
-        print(event.data)
+        # print(event.data)
         event_type = event.event_type.split(":")
         if event_type[0] == "keyEvent":
             for win in self.windows.keys():

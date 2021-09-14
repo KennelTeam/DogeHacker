@@ -28,15 +28,15 @@ class Utility(EventListener):
         self._mutex = threading.Lock()
 
     def on_event(self, event: Event):
-        print(event.event_type, event.data)
+        # print(event.event_type, event.data)
         self._mutex.acquire()
-        print("!!!")
-        print(event.event_type.split(":")[1])
-        print(self.deltaD)
+        # print("!!!")
+        # print(event.event_type.split(":")[1])
+        # print(self.deltaD)
         if event.event_type.split(":")[1] == "stonks":
             self.delta += self.deltaD
         elif event.event_type.split(":")[1] == "not_stonks":
-            print("not stonks!!!\n\n")
+            # print("not stonks!!!\n\n")
             self.delta -= self.deltaD
         elif event.data == Qt.Key.Key_C:
             self.stopped = True
@@ -54,7 +54,7 @@ class Utility(EventListener):
 
             xml = self.prepare_xml()
             Event(xml, self.subscription_prefix + ":on_change:" + self.name)
-            print(self.delta)
+            # print(self.delta)
             self._mutex.release()
 
             time.sleep(1)
