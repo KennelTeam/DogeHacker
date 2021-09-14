@@ -8,7 +8,6 @@ def start_utility_in_window(window_id, util_name):
 
 
 def choose_cmd_action(cmd):
-    # (cmd)
     if cmd['main_cmd'] == 'startutil':
         util_name = cmd['second_cmd']
         window_id = cmd['params']['w']
@@ -17,18 +16,17 @@ def choose_cmd_action(cmd):
         window_id = cmd['params']['w']
         Event(cmd['second_cmd'], window_id + ":" + "ch_city")
     elif cmd['main_cmd'] == 'split':
-        # Event(cmd['sec'])
-        ...
+        Event(cmd['params'], 'splitEvent')
 
 
 def parse_command(inpcmd: str):
-    # (inpcmd)
     main_block = re.search(r'[^-]+\s', inpcmd).group(0)
-    main_cmd, second_cmd = main_block.split()
+    commands = main_block.split()
 
     p_command = dict()
-    p_command['main_cmd'] = main_cmd
-    p_command['second_cmd'] = second_cmd
+    p_command['main_cmd'] = commands[0]
+    if len(commands) > 1:
+        p_command['second_cmd'] = commands[1]
     p_command['params'] = dict()
 
     s_params = inpcmd[len(main_block):]
