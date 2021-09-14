@@ -8,14 +8,18 @@ def start_utility_in_window(window_id, util_name):
 
 
 def choose_cmd_action(cmd):
+    print(cmd)
     if cmd['main_cmd'] == 'startutil':
         util_name = cmd['second_cmd']
         window_id = cmd['params']['w']
         start_utility_in_window(window_id, util_name)
-    # elif main_cmd == ''
+    elif cmd['main_cmd'] == 'ch_city':
+        window_id = cmd['params']['w']
+        Event(cmd['second_cmd'], window_id + ":" + "ch_city")
 
 
 def parse_command(inpcmd: str):
+    print(inpcmd)
     main_block = re.search(r'[^-]+\s', inpcmd).group(0)
     main_cmd, second_cmd = main_block.split()
 
