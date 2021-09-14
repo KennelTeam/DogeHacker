@@ -6,7 +6,7 @@ from xml.etree import ElementTree
 
 
 class Utility(EventListener):
-    hacking_time = 11
+    hacking_time = 2
     progress_bar_size = 13
     name: str
 
