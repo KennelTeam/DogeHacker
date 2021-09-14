@@ -4,7 +4,7 @@ from EventSystem.event import Event
 
 def start_utility_in_window(window_id, util_name):
     print('starting new util', window_id, util_name)
-    Event(util_name, "win" + window_id + ":add_util")
+    Event(util_name, window_id + ":add_util")
 
 
 def choose_cmd_action(cmd):
