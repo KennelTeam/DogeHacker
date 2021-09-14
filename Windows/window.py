@@ -5,18 +5,18 @@ from EventSystem.event_manager import EventManager
 from EventSystem.event_listener import EventListener
 from utilities_controller import import_utility
 import threading
-from Renderer import Renderer, render
+from Renderer import Renderer
 from xml.etree import ElementTree
 
 
 class Window(EventListener):
-    layout: PyQt5.QtWidgets.QFormLayout
+    layout: any
     window_id: str
     root_utilities: dict
     utilities_xmls: dict
     utilities_mutex: threading.Lock
 
-    def __init__(self, layout: PyQt5.QtWidgets.QFormLayout, window_id: str):
+    def __init__(self, layout, window_id: str):
         super(Window, self).__init__(window_id)
         self.utilities_xmls = {}
         self.layout = layout

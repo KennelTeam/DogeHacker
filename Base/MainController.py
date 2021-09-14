@@ -11,7 +11,7 @@ from Renderer import Renderer
 class MainController(EventListener):
     ui_manager: UIManager
     main_window: QMainWindow
-    windows: {}
+    windows: dict
 
     def __init__(self):
         super().__init__()

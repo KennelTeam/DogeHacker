@@ -49,7 +49,7 @@ class MainWindow(QWidget):
 
     def add_subwindow(self, position: tuple):
         scroll_area = QScrollArea()
-        form_layout = QFormLayout()
+        form_layout = QHBoxLayout()
         form_layout.setContentsMargins(0, 0, 0, 0)
         scroll_area.setLayout(form_layout)
         self.subwindows.append(form_layout)

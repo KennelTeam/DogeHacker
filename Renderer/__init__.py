@@ -1,3 +1,5 @@
+import PyQt5
+from Renderer.SubRenderers.new_text_render import NewTextRender
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 import xml.etree.ElementTree as ET
@@ -10,7 +12,7 @@ from common.singleton import singleton
 
 
 render_tags = {
-    "text": LabelRender,
+    "text": NewTextRender,
     "graph": GraphPainter
 }
 
@@ -25,20 +27,18 @@ class Renderer(QObject):
         self.render.connect(self.run)
 
     # @pyqtSlot
-    def run(self, layout, data):
-        for i in range(len(layout)):
-            layout.removeRow(i)
-        for child in data:
-            # print(child.tag)
-            layout.addRow(render_tags[child.tag](child))
+    def run(self, parent: QHBoxLayout, data: ET.ElementTree):
+        # for i in range(len(layout)):
+        #     layout.removeRow(i)
+        # for child in data:
+        #     # print(child.tag)
+        #     layout.addWidget(render_tags[child.tag](child))
+        if parent.property('renderer') is None:
+            widget = render_tags[data[0].tag]()
+            parent.addChildWidget(widget)
+            parent.setProperty('renderer', widget)
+        parent.property('renderer').updateData(data[0])
 
-
-def render(layout: QFormLayout, data: ET.Element):
-    for i in range(len(layout)):
-        layout.removeRow(i)
-    for child in data:
-        # print(child.tag)
-        layout.addRow(render_tags[child.tag](child))
 
 
 if __name__ == '__main__':
